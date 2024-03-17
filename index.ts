@@ -1,20 +1,19 @@
 import express from 'express';
+import messagesRouter from './routes/messages';
+import fileDB from './fileDB';
 
 const app = express();
-const port = 8000
+const port = 8000;
 
-app.get('/messages', (req, res) => {
-  return res.send('Here is messages!');
-});
+app.use(express.json());
+app.use('/messages', messagesRouter);
 
-app.get('/messages/:id', (req, res) => {
-  return res.send(`Here is message by id: ${req.params.id}`);
-});
+const run = async () => {
+  await fileDB.init();
 
-app.post('/messages', (req, res) => {
-  return res.send('Add message here [POST]');
-});
+  app.listen(port, () => {
+    console.log(`Server run on port: ${port}.`)
+  });
+}
 
-app.listen(port, () => {
-  console.log(`Server run on port: ${port}.`)
-});
+void run();
