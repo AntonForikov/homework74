@@ -21,6 +21,19 @@ const fileDB = {
   },
   async getData ()  {
     return messages;
+  },
+  async addMessage (message: Message) {
+    const messageToAdd = {
+      ...message,
+      date: new Date().toISOString()
+    };
+
+    try {
+      await fs.writeFile(`./messages/${messageToAdd.date}.txt`, JSON.stringify(messageToAdd, null, 2));
+      return messageToAdd;
+    } catch (e) {
+      console.error(e);
+    }
   }
 };
 
