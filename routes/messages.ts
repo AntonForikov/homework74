@@ -10,6 +10,7 @@ messagesRouter.get('/', async (req, res) => {
 
 messagesRouter.post('/', async (req, res) => {
   const result = await fileDB.addMessage(req.body);
+  await fileDB.init();
   return res.send(result);
 });
 
